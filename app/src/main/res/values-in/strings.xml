@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Katalog FIlm</string>
+    <string name="navigation_drawer_open">Buka navigation drawer</string>
+    <string name="navigation_drawer_close">Tutup navigation drawer</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="rizka">Rizka Irianty</string>
+    <string name="email">kikaranty@gmail.com</string>
+    <string name="now_playing">Sedang Tayang</string>
+    <string name="upcoming">Akan Tayang</string>
+    <string name="cari">Cari</string>
+    <string name="cari_judul">Cari Judul</string>
+    <string name="title">Judul</string>
+    <string name="overview">Overview</string>
+    <string name="release_date">Tanggal Rilis</string>
+    <string name="Judul">Judul : </string>
+    <string name="Tanggal">Tanggal Rilis : </string>
+    <string name="Sinopsis">Sinopsis : </string>
+    <string name="Vote">Suara</string>
+    <string name="VoteVount">Jumlah Suara</string>
+    <string name="Suara">Suara :</string>
+    <string name="JumlahVote">Jumlah Suara :</string>
+    <string name="hint">Judul film</string>
+    <string name="search">Cari</string>
+    <string name="settings">Pengaturan</string>
+    <string name="change_lang">Ganti Bahasa</string>
+    <string name="popular">Film Populer</string>
+    <string name="Hasil_pencarian">Hasil Pencarian</string>
+    <string name="want_to_reload">Ingin Muat Ulang?</string>
+    <string name="internet_fail">Tidak Dapat Tersambung ke Jaringan</string>
+    <string name="reload">Muat Ulang</string>
+    <string name="cancel">Keluar</string>
+    <string name="no_connection">Tidak Dapat Tersambung ke Jaringan. Periksa Koneksi Internet Anda.</string>
+</resources>

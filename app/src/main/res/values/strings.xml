@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Movie Catalogue</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="rizka">Rizka Irianty</string>
+    <string name="email">kikaranty@gmail.com</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="cari">Cari</string>
+    <string name="cari_judul">Cari Judul</string>
+    <string name="title">Title</string>
+    <string name="overview">Overview</string>
+    <string name="release_date">Release Date</string>
+    <string name="Judul">Title : </string>
+    <string name="Tanggal">Date Release : </string>
+    <string name="Sinopsis">Synopsis : </string>
+    <string name="Vote">Vote</string>
+    <string name="VoteVount">Vote Count</string>
+    <string name="Suara">Vote :</string>
+    <string name="JumlahVote">Vote Count :</string>
+    <string name="hint">Movie Title</string>
+    <string name="search">search</string>
+    <string name="settings">Settings</string>
+    <string name="change_lang">Change language</string>
+    <string name="popular">Popular Movie</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Hasil_pencarian">Search Result</string>
+    <string name="want_to_reload">Do You Want to Reload?</string>
+    <string name="internet_fail">Cannot Connect to Internet</string>
+    <string name="reload">Reload</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_connection">No Connection. Please check your internet connection</string>
+    <string name="favorite">Favorite</string>
+    <string name="app_first_run">First Run</string>
+</resources>
