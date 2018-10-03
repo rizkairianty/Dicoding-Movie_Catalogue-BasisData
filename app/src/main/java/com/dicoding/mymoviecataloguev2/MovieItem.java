@@ -105,6 +105,9 @@ public class MovieItem implements Parcelable {
     public void setVote(double vote) {
         this.vote = vote;
     }
+    public void setVote(String vote) {
+        this.vote = Double.valueOf(vote);
+    }
 
     public double getVoteCount() {
         return voteCount;
@@ -113,7 +116,9 @@ public class MovieItem implements Parcelable {
     public void setVoteCount(double voteCount) {
         this.voteCount = voteCount;
     }
-
+    public void setVoteCount(String voteCount) {
+        this.vote = Double.valueOf(voteCount);
+    }
     @Override
     public int describeContents() {
         return 0;
