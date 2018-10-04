@@ -17,7 +17,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static android.provider.BaseColumns._ID;
 import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.CONTENT_URI;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.TableColumns.OVERVIEW;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.TableColumns.POSTER;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.TableColumns.RELEASE_DATE;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.TableColumns.TITLE;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.TableColumns.VOTE;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.TableColumns.VOTE_COUNT;
 
 
 /**
@@ -51,20 +58,34 @@ public class FavoriteFragment extends Fragment {
         adapter = new FavMovieListAdapter(getActivity());
         adapter.setListFavMovie(list);
         rvCategory.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         new LoadData().execute();
         ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 DetailFragment detailFragment = new DetailFragment();
-                MovieItem movItem = movieLists.get(position);
+                //MovieItem movItem = movieLists.get(position);
+                //MovieItem movItem = list.
+                MovieItem movItem = new MovieItem();
+                if (list.moveToPosition(position)){
+                    movItem.setId(list.getInt(list.getColumnIndexOrThrow(_ID)));
+                    movItem.setJudul(list.getString(list.getColumnIndexOrThrow(TITLE)));
+                    movItem.setReleaseDate(list.getString(list.getColumnIndexOrThrow(RELEASE_DATE)));
+                    movItem.setOverview(list.getString(list.getColumnIndexOrThrow(OVERVIEW)));
+                    movItem.setVote(list.getString(list.getColumnIndexOrThrow(VOTE)));
+                    movItem.setVoteCount(list.getString(list.getColumnIndexOrThrow(VOTE_COUNT)));
+                    movItem.setPoster(list.getString(list.getColumnIndexOrThrow(POSTER)));
+
+                }
                 Bundle bundle = new Bundle();
+//                bundle.putParcelable("object",list);
                 bundle.putParcelable("object",movItem);
-                bundle.putString(DetailFragment.EXTRA_TITLE,movItem.getJudul());
-                bundle.putString(DetailFragment.EXTRA_POSTER,movItem.getPoster());
-                bundle.putString(DetailFragment.EXTRA_OVERVIEW,movItem.getOverview());
-                bundle.putString(DetailFragment.EXTRA_RELEASE_DATE,movItem.getReleaseDate());
-                bundle.putString(DetailFragment.EXTRA_VOTE,Double.toString(movItem.getVote()));
-                bundle.putString(DetailFragment.EXTRA_VOTE_COUNT,Double.toString(movItem.getVoteCount()));
+//                bundle.putString(DetailFragment.EXTRA_TITLE,movItem.getJudul());
+//                bundle.putString(DetailFragment.EXTRA_POSTER,movItem.getPoster());
+//                bundle.putString(DetailFragment.EXTRA_OVERVIEW,movItem.getOverview());
+//                bundle.putString(DetailFragment.EXTRA_RELEASE_DATE,movItem.getReleaseDate());
+//                bundle.putString(DetailFragment.EXTRA_VOTE,Double.toString(movItem.getVote()));
+//                bundle.putString(DetailFragment.EXTRA_VOTE_COUNT,Double.toString(movItem.getVoteCount()));
 
                 detailFragment.setArguments(bundle);
                 FragmentManager mFragmentManager = getFragmentManager();

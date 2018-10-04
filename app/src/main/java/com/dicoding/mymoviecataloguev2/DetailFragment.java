@@ -1,6 +1,9 @@
 package com.dicoding.mymoviecataloguev2;
 
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,8 +16,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.dicoding.mymoviecataloguev2.database.DatabaseContract;
+import com.dicoding.mymoviecataloguev2.database.FavMovieHelper;
 
 import java.util.ArrayList;
+
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.CONTENT_URI;
 
 
 /**
@@ -30,6 +37,8 @@ public class DetailFragment extends Fragment {
     Switch switchFav;
     MovieItem movieItem;
     private UserPreference mUserPreference;
+    private Uri uri;
+    private FavMovieHelper favMovieHelper;
     ArrayList<MovieItem> favMovie = new ArrayList<MovieItem>();
     public final static String EXTRA_TITLE = "TITLE";
     public final static String EXTRA_RELEASE_DATE = "RELEASE_DATE";
@@ -60,19 +69,29 @@ public class DetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        favMovieHelper = new FavMovieHelper(getActivity());
+        favMovieHelper.open();
         mUserPreference = new UserPreference();
         Bundle bundle = getArguments();
         if (bundle!=null){
             movieItem = bundle.getParcelable("object");
         }
+        uri = Uri.parse(CONTENT_URI+"/"+movieItem.getId());
+
+        if (uri != null) {
+            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null){
+                if(cursor.moveToFirst()) movieItem = new MovieItem(cursor);
+                cursor.close();
+            }
+        }
         tvDetailTitle.setText(movieItem.getJudul());
         tvDetailReleaseDate.setText(movieItem.getReleaseDate());
-        tvDetailVote.setText(getArguments().getString(EXTRA_VOTE));
-        tvDetailVoteCount.setText(getArguments().getString(EXTRA_VOTE_COUNT));
-        tvDetailOverview.setText(getArguments().getString(EXTRA_OVERVIEW));
+        tvDetailVote.setText(String.valueOf(movieItem.getVote()));
+        tvDetailVoteCount.setText(String.valueOf(movieItem.getVoteCount()));
+        tvDetailOverview.setText(movieItem.getOverview());
         Glide.with(this)
-                .load("http://image.tmdb.org/t/p/w92/" + getArguments().getString(EXTRA_POSTER))
+                .load("http://image.tmdb.org/t/p/w92/" + movieItem.getPoster())
                 .override(55,90)
                 .placeholder(R.drawable.placeholder)
                 .into(ivDetailPoster);
@@ -87,16 +106,20 @@ public class DetailFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
+                 ContentValues contentValues = new ContentValues();
+                    contentValues.put(DatabaseContract.TableColumns.TITLE,movieItem.getJudul());
+                    contentValues.put(DatabaseContract.TableColumns.RELEASE_DATE,movieItem.getReleaseDate());
+                    contentValues.put(DatabaseContract.TableColumns.OVERVIEW,movieItem.getOverview());
+                    contentValues.put(DatabaseContract.TableColumns.VOTE,movieItem.getVote());
+                    contentValues.put(DatabaseContract.TableColumns.VOTE_COUNT,movieItem.getVoteCount());
+                    contentValues.put(DatabaseContract.TableColumns.POSTER,movieItem.getPoster());
 //                    String tag = switchFav.getTag().toString();
 //                    if (tag.equalsIgnoreCase("no")) {
-                    mUserPreference.addFavorite(getActivity(), movieItem);
-//
-//                        switchFav.setTag("yes");
-//                        switchFav.setChecked(true);
+                    //mUserPreference.addFavorite(getActivity(), movieItem);
+                    getContext().getContentResolver().insert(CONTENT_URI,contentValues);
                 } else {
-                    mUserPreference.removeFavorite(getActivity(),movieItem);
-//                        switchFav.setTag("no");
-//                        switchFav.setChecked(false);
+                    //mUserPreference.removeFavorite(getActivity(),movieItem);
+                    getContext().getContentResolver().delete(uri,null,null);
                 }
             }
         });

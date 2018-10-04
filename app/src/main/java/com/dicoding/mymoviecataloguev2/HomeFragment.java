@@ -105,12 +105,12 @@ import java.util.ArrayList;
                             MovieItem movItem = movieLists.get(position);
                             Bundle bundle = new Bundle();
                             bundle.putParcelable("object",movItem);
-                            bundle.putString(DetailFragment.EXTRA_TITLE,movItem.getJudul());
-                            bundle.putString(DetailFragment.EXTRA_POSTER,movItem.getPoster());
-                            bundle.putString(DetailFragment.EXTRA_OVERVIEW,movItem.getOverview());
-                            bundle.putString(DetailFragment.EXTRA_RELEASE_DATE,movItem.getReleaseDate());
-                            bundle.putString(DetailFragment.EXTRA_VOTE,Double.toString(movItem.getVote()));
-                            bundle.putString(DetailFragment.EXTRA_VOTE_COUNT,Double.toString(movItem.getVoteCount()));
+//                            bundle.putString(DetailFragment.EXTRA_TITLE,movItem.getJudul());
+//                            bundle.putString(DetailFragment.EXTRA_POSTER,movItem.getPoster());
+//                            bundle.putString(DetailFragment.EXTRA_OVERVIEW,movItem.getOverview());
+//                            bundle.putString(DetailFragment.EXTRA_RELEASE_DATE,movItem.getReleaseDate());
+//                            bundle.putString(DetailFragment.EXTRA_VOTE,Double.toString(movItem.getVote()));
+//                            bundle.putString(DetailFragment.EXTRA_VOTE_COUNT,Double.toString(movItem.getVoteCount()));
 
                             detailFragment.setArguments(bundle);
                             FragmentManager mFragmentManager = getFragmentManager();
