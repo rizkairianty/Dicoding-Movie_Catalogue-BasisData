@@ -22,6 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.dicoding.mymoviecataloguev2"
+            android:name=".provider.MovieProvider"
+            android:exported="true"
+            android:readPermission="com.dicoding.mymoviecataloguev2.READ_DATABASE"
+            android:writePermission="com.dicoding.mymoviecataloguev2.WRITE_DATABASE" />
     </application>
 
 </manifest>

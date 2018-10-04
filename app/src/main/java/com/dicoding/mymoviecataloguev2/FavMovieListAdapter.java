@@ -13,9 +13,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.CategoryViewHolder> {
+public class FavMovieListAdapter extends RecyclerView.Adapter<FavMovieListAdapter.CategoryViewHolder> {
     private Context context;
-private Cursor listFavMovie;
+    private Cursor listFavMovie;
     private ArrayList<MovieItem> listMovie;
 
     ArrayList<MovieItem> getListMovie() {
@@ -25,10 +25,10 @@ private Cursor listFavMovie;
         this.listMovie = listMovie;
     }
 
-    MovieListAdapter(Context context){
+    FavMovieListAdapter(Context context){
         this.context = context;
     }
-    MovieListAdapter(Context context, ArrayList<MovieItem> listMovie){
+    FavMovieListAdapter(Context context, ArrayList<MovieItem> listMovie){
         this.context = context;
         this.listMovie = listMovie;
 
@@ -39,18 +39,29 @@ private Cursor listFavMovie;
     }
 
     @Override
-    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FavMovieListAdapter.CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
-        return new CategoryViewHolder(itemRow);
+        return new FavMovieListAdapter.CategoryViewHolder(itemRow);
     }
 
     @Override
-    public void onBindViewHolder(CategoryViewHolder holder, int position) {
-        holder.tvJudul.setText(getListMovie().get(position).getJudul());
-        holder.tvRelease.setText(getListMovie().get(position).getReleaseDate());
-        holder.tvOverviews.setText(getListMovie().get(position).getOverview());
+    public void onBindViewHolder(FavMovieListAdapter.CategoryViewHolder holder, int position) {
+//        holder.tvJudul.setText(getListMovie().get(position).getJudul());
+//        holder.tvRelease.setText(getListMovie().get(position).getReleaseDate());
+//        holder.tvOverviews.setText(getListMovie().get(position).getOverview());
+//        Glide.with(context)
+//                .load("http://image.tmdb.org/t/p/w185/"+ getListMovie().get(position).getPoster())
+//                .placeholder(R.drawable.placeholder)
+//                .override(65,90)
+//                .into(holder.imgMoviePoster);
+
+        final MovieItem movieItem = getItem(position);
+        holder.tvJudul.setText(movieItem.getJudul());
+        holder.tvRelease.setText(movieItem.getReleaseDate());
+        holder.tvOverviews.setText(movieItem.getOverview());
         Glide.with(context)
-                .load("http://image.tmdb.org/t/p/w185/"+ getListMovie().get(position).getPoster())
+                .load("http://image.tmdb.org/t/p/w185/"+ movieItem.getPoster()
+                )
                 .placeholder(R.drawable.placeholder)
                 .override(65,90)
                 .into(holder.imgMoviePoster);
@@ -58,7 +69,16 @@ private Cursor listFavMovie;
 
     @Override
     public int getItemCount() {
-        return getListMovie().size();
+        if (listFavMovie==null)
+            return 0;
+        return listFavMovie.getCount();
+    }
+
+    private MovieItem getItem(int position){
+        if (!listFavMovie.moveToPosition(position)) {
+            throw new IllegalStateException("Position invalid");
+        }
+        return new MovieItem(listFavMovie);
     }
 
     class CategoryViewHolder extends RecyclerView.ViewHolder{

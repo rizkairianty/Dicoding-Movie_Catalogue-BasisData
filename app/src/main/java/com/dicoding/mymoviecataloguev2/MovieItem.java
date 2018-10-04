@@ -1,9 +1,16 @@
 package com.dicoding.mymoviecataloguev2;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.dicoding.mymoviecataloguev2.database.DatabaseContract;
+
 import org.json.JSONObject;
+
+import static android.provider.BaseColumns._ID;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.getColumnInt;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.getColumnString;
 
 public class MovieItem implements Parcelable {
     private String judul, overview, releaseDate, moviePoster;
@@ -134,4 +141,17 @@ public class MovieItem implements Parcelable {
         dest.writeDouble(voteCount);
         dest.writeDouble(id);
     }
+
+
+    public MovieItem(Cursor cursor){
+        this.id = getColumnInt(cursor, _ID);
+        this.judul = getColumnString(cursor, DatabaseContract.TableColumns.TITLE);
+        this.overview = getColumnString(cursor, DatabaseContract.TableColumns.OVERVIEW);
+        this.releaseDate = getColumnString(cursor, DatabaseContract.TableColumns.RELEASE_DATE);
+        this.voteCount = Double.parseDouble(getColumnString(cursor, DatabaseContract.TableColumns.VOTE_COUNT));
+        this.vote = Double.parseDouble(getColumnString(cursor, DatabaseContract.TableColumns.VOTE));
+        this.moviePoster = getColumnString(cursor,DatabaseContract.TableColumns.POSTER);
+
+    }
+
 }
