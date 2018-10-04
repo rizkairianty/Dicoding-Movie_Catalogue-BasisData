@@ -58,8 +58,8 @@ public class FavoriteFragment extends Fragment {
         adapter = new FavMovieListAdapter(getActivity());
         adapter.setListFavMovie(list);
         rvCategory.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
         new LoadData().execute();
+        adapter.notifyDataSetChanged();
         ItemClickSupport.addTo(rvCategory).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -78,15 +78,7 @@ public class FavoriteFragment extends Fragment {
 
                 }
                 Bundle bundle = new Bundle();
-//                bundle.putParcelable("object",list);
                 bundle.putParcelable("object",movItem);
-//                bundle.putString(DetailFragment.EXTRA_TITLE,movItem.getJudul());
-//                bundle.putString(DetailFragment.EXTRA_POSTER,movItem.getPoster());
-//                bundle.putString(DetailFragment.EXTRA_OVERVIEW,movItem.getOverview());
-//                bundle.putString(DetailFragment.EXTRA_RELEASE_DATE,movItem.getReleaseDate());
-//                bundle.putString(DetailFragment.EXTRA_VOTE,Double.toString(movItem.getVote()));
-//                bundle.putString(DetailFragment.EXTRA_VOTE_COUNT,Double.toString(movItem.getVoteCount()));
-
                 detailFragment.setArguments(bundle);
                 FragmentManager mFragmentManager = getFragmentManager();
                 FragmentTransaction mFragmentTransation = mFragmentManager.beginTransaction();
@@ -101,7 +93,6 @@ public class FavoriteFragment extends Fragment {
 private class LoadData extends AsyncTask<Void,Void,Cursor>{
     @Override
     protected Cursor doInBackground(Void... voids) {
-        Log.v(TAG,"wowow");
         return getContext().getContentResolver().query(CONTENT_URI,null,null,null,null);
     }
 

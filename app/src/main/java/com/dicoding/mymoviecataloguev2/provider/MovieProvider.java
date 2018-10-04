@@ -16,7 +16,7 @@ import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.CONTENT_
 public class MovieProvider extends ContentProvider{
 
     private static final int MOVIE = 1;
-    private static final int MOVIE_ID = 3;
+    private static final int MOVIE_ID = 2;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 

@@ -56,25 +56,6 @@ public class UserPreference {
         saveFavorites(context,favorites);
     }
 
-    public void removeFavorite(Context context, MovieItem movieItem) {
-        ArrayList<MovieItem> favorites = getFavorites(context);
-//        if (favorites != null) {
-//                favorites.remove(favorites.indexOf(movieItem));
-//            saveFavorites(context, favorites);
-//        }
-        if (favorites != null) {
-            for (MovieItem codes : favorites) {
-                if (codes.getJudul().equals(movieItem.getJudul())) {
-                    int m = favorites.indexOf(codes);
-                    favorites.remove(m);
-                    break;
-                }
-            }
-            saveFavorites(context, favorites);
-        }
-    }
-
-
     public ArrayList<MovieItem> getFavorites(Context context) {
         SharedPreferences settings;
         List<MovieItem> favorites;

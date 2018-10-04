@@ -4,9 +4,11 @@ package com.dicoding.mymoviecataloguev2;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,9 @@ import com.dicoding.mymoviecataloguev2.database.FavMovieHelper;
 
 import java.util.ArrayList;
 
+import static android.provider.BaseColumns._ID;
 import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.CONTENT_URI;
+import static com.dicoding.mymoviecataloguev2.database.DatabaseContract.TableColumns.TITLE;
 
 
 /**
@@ -36,6 +40,7 @@ public class DetailFragment extends Fragment {
     ImageView ivDetailPoster;
     Switch switchFav;
     MovieItem movieItem;
+    private ArrayList<MovieItem> movieItemList;
     private UserPreference mUserPreference;
     private Uri uri;
     private FavMovieHelper favMovieHelper;
@@ -81,7 +86,8 @@ public class DetailFragment extends Fragment {
         if (uri != null) {
             Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
             if (cursor != null){
-                if(cursor.moveToFirst()) movieItem = new MovieItem(cursor);
+                if(cursor.moveToFirst())
+                    movieItem = new MovieItem(cursor);
                 cursor.close();
             }
         }
@@ -95,6 +101,15 @@ public class DetailFragment extends Fragment {
                 .override(55,90)
                 .placeholder(R.drawable.placeholder)
                 .into(ivDetailPoster);
+
+
+        movieItemList = new ArrayList<MovieItem>();
+        final Cursor cursor = getContext().getContentResolver().query(CONTENT_URI, null, null, null, null);
+        while (cursor.moveToNext()){
+            MovieItem movItem = new MovieItem(cursor);
+            movieItemList.add(movItem);
+        }
+
         if (checkFavoriteItem(movieItem)){
             switchFav.setChecked(true);
             switchFav.setTag("yes");
@@ -107,7 +122,7 @@ public class DetailFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                  ContentValues contentValues = new ContentValues();
-                    contentValues.put(DatabaseContract.TableColumns.TITLE,movieItem.getJudul());
+                    contentValues.put(TITLE,movieItem.getJudul());
                     contentValues.put(DatabaseContract.TableColumns.RELEASE_DATE,movieItem.getReleaseDate());
                     contentValues.put(DatabaseContract.TableColumns.OVERVIEW,movieItem.getOverview());
                     contentValues.put(DatabaseContract.TableColumns.VOTE,movieItem.getVote());
@@ -119,6 +134,24 @@ public class DetailFragment extends Fragment {
                     getContext().getContentResolver().insert(CONTENT_URI,contentValues);
                 } else {
                     //mUserPreference.removeFavorite(getActivity(),movieItem);
+                    int id=0;
+                    cursor.moveToPosition(-1);
+                    while (cursor.moveToNext()){
+//                        for (MovieItem codes : movieItemList) {
+//                            String s = cursor.getString(cursor.getColumnIndex(TITLE));
+//                            if (codes.getJudul().equals(s)) {
+//                                id = cursor.getInt(cursor.getColumnIndexOrThrow(_ID));
+//                                break;
+//                            }
+//                        }
+                        String s = cursor.getString(cursor.getColumnIndex(TITLE));
+                            if (movieItem.getJudul().equals(s)) {
+                                id = cursor.getInt(cursor.getColumnIndexOrThrow(_ID));
+                                break;
+                            }
+                    }
+                    Uri uri = Uri.parse(CONTENT_URI+"/"+id);
+                    //getContext().getContentResolver().delete(uri,DatabaseContract.TableColumns.TITLE+" = ?",selectionArgs);
                     getContext().getContentResolver().delete(uri,null,null);
                 }
             }
@@ -126,9 +159,8 @@ public class DetailFragment extends Fragment {
     }
     public boolean checkFavoriteItem(MovieItem checkProduct) {
         boolean check = false;
-        ArrayList<MovieItem> favorites = mUserPreference.getFavorites(getActivity());
-        if (favorites != null) {
-            for (MovieItem codes : favorites) {
+        if (movieItemList != null) {
+            for (MovieItem codes : movieItemList) {
                 if (codes.getJudul().equals(checkProduct.getJudul())) {
                     check = true;
                     break;
@@ -137,4 +169,5 @@ public class DetailFragment extends Fragment {
         }
         return check;
     }
+
 }
